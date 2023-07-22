@@ -3,3 +3,19 @@ repos:
   rev: v2.1.0
   hooks:
     - id: conventional-commits
+      args: [--config ./git-conventional-commits.yaml]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.3.0
+  hooks:
+  - id: check-yaml
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  - id: check-docstring-first
+  - id: check-json
+  - id: debug-statements
+  - id: name-tests-test
+  - id: pretty-format-json
+- repo: https://github.com/psf/black
+  rev: 22.10.0
+  hooks:
+  - id: black
