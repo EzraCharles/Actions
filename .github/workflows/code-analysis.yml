@@ -1,0 +1,27 @@
+name: Run linters and upload result files
+on: 
+  workflow_dispatch:
+
+jobs:
+  Upload_linters:
+    runs-on: self-hosted
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Step 1 - Run linters 
+        run : |
+              python3 -V
+              pyvenv venv
+              source venv/bin/activate
+              python3 -m pip install flake8
+              python3 -m pip install pylint
+              touch __init__.py
+              mkdir artifact
+              python3 -m flake8 ./ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics > ./artifact/flake_result.txt
+              python3 -m pylint ./ --reports=y > ./artifact/pylint_result.txt || true
+              rm __init__.py
+      - name: Step 2 - Use upload artifact actions
+        uses: actions/upload-artifact@v3
+        with:
+          name: linter result
+          path: ./artifact

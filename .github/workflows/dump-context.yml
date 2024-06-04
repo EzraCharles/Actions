@@ -1,0 +1,29 @@
+name: Dump Context
+on:
+  push:
+    branches-ignore:
+      - main
+      - dev
+  workflow_call: {}
+  workflow_dispatch:
+
+jobs:
+  dump-context:
+    runs-on: self-hosted
+    steps:
+    - name: Dump GitHub Context
+      run: echo '${{ toJSON(github) }}'
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Show Current Working Directory
+      run: pwd
+    - name: List files
+      run: ls -la
+    - name: Show GitHub API version
+      run: gh --version
+    - name: Show GitHub API Auth Status
+      run: gh auth status || true
+    - name: List home dir
+      run: ls -la ~/
+    - name: Show authenticated UNIX User
+      run: whoami
